@@ -5,7 +5,7 @@
  fm.Package("");
  fm.Class("web");
  web = function (me) { 
-     Static.path = {
+    Static.path = {
         
     };
 	Static.port = 80;
