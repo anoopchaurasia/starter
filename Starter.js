@@ -1,4 +1,3 @@
-console.log("called");
 fm.Package("");
 fm.Class("Starter");
 Starter = function(){this.setMe=function(_me){me=_me;};
@@ -13,6 +12,7 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 		if( typeof global.web == 'undefined'){
 			fm.Include("web");
 		}
+		servletObj = {};
 		var http = require('http');
 		var url = require('url');
 		http.createServer(function( req, resp ) {
@@ -65,6 +65,6 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 			else {
 				
 			}
-		}, (web.port || 80) );
+		}).listen((web.port || 80));
 	};
 };
