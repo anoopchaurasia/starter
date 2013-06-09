@@ -1,6 +1,6 @@
 {
   "name": "jsfm-starter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Server for nodejs",
   "homepage": "https://github.com/anoopchaurasia/starter",
   "keywords": [
@@ -19,7 +19,12 @@
     "email": "anoop26667@gmail.com"
   },
   "dependencies": {
-    "jsfm": "~1.0.2"
+    "jsfm": "~1.0.2",
+    "node-static": "~0.6.9"
   },
-  "main" : "index.js"
+  "main" : "index.js",
+  "readme": "ERROR: No README.md file found!",
+  "readmeFilename": "README.md",
+  "_id": "jsfm-starter@1.0.2",
+  "_from": "jsfm-starter@~1.0.0"
 }
