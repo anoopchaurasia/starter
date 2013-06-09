@@ -70,11 +70,12 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 				}
 			}
 			else {
-				if (servletName == "/" && web.welcome_page) {
+				if ( (servletName == "/" || servletName == "") && web.welcome_page) {
 					req.url = web.welcome_page;
 				}
+				req.url = "./" + web.sources + req.url;
 				if(servletName.indexOf("jsfm.js") != -1){
-					req.url = "./node_modules/jsfm-starter/node_modules/jsfm/jsfm.js";
+					req.url = "./src/node_modules/jsfm-starter/node_modules/jsfm/jsfm.js";
 				}
 				staticServer.serve(req, resp, function( err, result ) {
 					if (err) {
