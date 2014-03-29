@@ -22,6 +22,7 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 			fm.Include("web");
 		}
 		servletObj = {};
+		var filedir = "." + __dirname.replace(process.cwd(), "");
 		var url = require('url');
 		httpServer.on('request', function( req, resp ) {
 			var url_parts = url.parse(req.url, true);
@@ -73,9 +74,12 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 				if ( (servletName == "/" || servletName == "") && web.welcome_page) {
 					req.url = web.welcome_page;
 				}
-				req.url = "./" + web.sources + req.url;
 				if(servletName.indexOf("jsfm.js") != -1){
-					req.url = "./src/node_modules/jsfm-starter/node_modules/jsfm/jsfm.js";
+					req.url = filedir + "/node_modules/jsfm/jsfm.js";
+					console.log(filedir);
+
+				}else{
+					req.url = web.sources + req.url;
 				}
 				staticServer.serve(req, resp, function( err, result ) {
 					if (err) {
