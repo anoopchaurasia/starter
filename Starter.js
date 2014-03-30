@@ -78,6 +78,10 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 					req.url = filedir + "/node_modules/jsfm/jsfm.js";
 					console.log(filedir);
 
+				}else if(servletName.indexOf("jfm") != -1){
+					req.url = filedir + "/node_modules/jsfm/" + req.url.substring(req.url.indexOf("jfm"));
+					console.log(filedir);
+
 				}else{
 					req.url = web.sources + req.url;
 				}
