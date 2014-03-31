@@ -19,7 +19,7 @@
     "email": "anoop26667@gmail.com"
   },
   "dependencies": {
-    "jsfm": "git:?//github.com/anoopchaurasia/jsfm.git",
+    "jsfm": "git://github.com/anoopchaurasia/jsfm.git",
     "node-static": "*"
   },
   "main" : "index.js",
