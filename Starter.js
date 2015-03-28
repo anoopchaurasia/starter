@@ -49,25 +49,13 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 					});
 					req.on('end', function( ) {
 						req.params = qs.parse(body);
-						try {
-							servletObj[servletName].POST(req, resp);
-						}
-						catch (e) {
-							console.log(e);
-							// resp.write(JSON.parse(e));
-							resp.end();
-						}
+						servletObj[servletName].POST(req, resp);
 					});
 				}
 				else if (req.method == "GET") {
 					var query = url_parts.query;
 					req.params = query;
-					try {
-						servletObj[servletName].GET(req, resp);
-					}
-					catch (e) {
-						resp.end();
-					}
+					servletObj[servletName].GET(req, resp);
 				}
 			}
 			else {
