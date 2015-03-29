@@ -23,7 +23,7 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 		}
 		servletObj = {};
 		var filedir = "." + __dirname.replace(process.cwd(), "");
-		var url = require('url');
+		var url = require('url'), qs=require("qs");
 		httpServer.on('request', function( req, resp ) {
 			var url_parts = url.parse(req.url, true);
 			var servletName = url_parts.pathname;
@@ -31,11 +31,11 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 				servletName = servletName.substring(0, servletName.indexOf("?"));
 			}
 			servletName = servletName.replace(/\//g, "");
-			
+
 			if (web.path[servletName] && !servletObj[servletName]) {
 				loadServlet(web.path[servletName].class, servletName);
 			}
-			
+
 			if (servletObj[servletName]) {
 				if (req.method == "POST") {
 					var body = "";
@@ -48,14 +48,14 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 						body += data;
 					});
 					req.on('end', function( ) {
-						req.params = qs.parse(body);
-						servletObj[servletName].POST(req, resp);
+						req.params = JSON.parse(body);
+						servletObj[servletName].POST(req, resp, url_parts.query.method);
 					});
 				}
 				else if (req.method == "GET") {
 					var query = url_parts.query;
 					req.params = query;
-					servletObj[servletName].GET(req, resp);
+					servletObj[servletName].GET(req, resp, url_parts.query.method);
 				}
 			}
 			else {
