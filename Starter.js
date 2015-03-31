@@ -49,7 +49,7 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 					});
 					req.on('end', function( ) {
 						req.params = qs.parse(body);
-						servletObj[servletName].POST(req, resp, url_parts.query.method);
+						servletObj[servletName].POST(req, resp, url_parts.query.method, url_parts.query);
 					});
 				}
 				else if (req.method == "GET") {
