@@ -48,7 +48,7 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 						body += data;
 					});
 					req.on('end', function( ) {
-						req.params = qs.parse(body);
+						req.params = JSON.parse(body);
 						servletObj[servletName].POST(req, resp, url_parts.query.method, url_parts.query);
 					});
 				}
