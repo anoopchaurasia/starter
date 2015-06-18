@@ -1,6 +1,6 @@
 {
   "name": "jsfm-starter",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Server for nodejs",
   "homepage": "https://github.com/anoopchaurasia/starter",
   "keywords": [
@@ -26,11 +26,11 @@
   "main": "index.js",
   "readme": "ERROR: No README.md file found!",
   "readmeFilename": "README.md",
-  "_id": "jsfm-starter@1.0.10",
+  "_id": "jsfm-starter@1.0.16",
   "_from": "jsfm-starter@~1.0.0",
   "bugs": {
     "url": "https://github.com/anoopchaurasia/starter/issues"
   },
   "_shasum": "3a050d10e8fc7e086158f8087c93268014e3193c",
-  "_resolved": "git://github.com/anoopchaurasia/starter.git#27f1db18b4e76026f08eb916907c058028e64852"
+  "_resolved": "git://github.com/anoopchaurasia/starter.git#a77acb2ac2318e28e666cd9ae1bb76f2c1cf03af"
 }

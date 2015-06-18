@@ -1,3 +1,3 @@
-require(__dirname+"/node_modules/jsfm/jsfm.js");
+require("jsfm");
 fm.basedir = __dirname;
-fm.Include("Starter");
+require("./Starter.js");

@@ -15,16 +15,21 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 			    'X-Powered-By' : 'node-static'
 		    }
 		});
-	}
+	};
 
-	Static.handle = function(httpServer){
-		if( typeof global.web == 'undefined'){
-			fm.Include("web");
-		}
+	Static.createServer = function(app){
+		var server = require('http').createServer()
+		.listen(app.port, app.host, function(){
+			console.log("Server running at ", this._connectionKey);
+		});
+		me.handle(app, server);
+	};
+
+	Static.handle = function(app, server){
 		servletObj = {};
 		var filedir = "." + __dirname.replace(process.cwd(), "");
 		var url = require('url'), qs=require("qs");
-		httpServer.on('request', function( req, resp ) {
+		server.on('request', function( req, resp ) {
 			var url_parts = url.parse(req.url, true);
 			var servletName = url_parts.pathname;
 			if (servletName.indexOf("?") != -1) {
@@ -32,8 +37,8 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 			}
 			servletName = servletName.replace(/\//g, "");
 
-			if (web.path[servletName] && !servletObj[servletName]) {
-				loadServlet(web.path[servletName].class, servletName);
+			if (app.controllers[servletName] && !servletObj[servletName]) {
+				loadServlet(app.controllers[servletName].class, servletName);
 			}
 
 			if (servletObj[servletName]) {
@@ -59,8 +64,8 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 				}
 			}
 			else {
-				if ( (servletName == "/" || servletName == "") && web.welcome_page) {
-					req.url = web.welcome_page;
+				if ( (servletName == "/" || servletName == "") && app.welcome_page) {
+					req.url = app.welcome_page;
 				}
 				if(servletName.indexOf("jsfm.js") != -1){
 					req.url = filedir + "/node_modules/jsfm/jsfm.js";
@@ -71,7 +76,7 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 					console.log(filedir);
 
 				}else{
-					req.url = web.sources + req.url;
+					req.url = app.sources + req.url;
 				}
 				staticServer.serve(req, resp, function( err, result ) {
 					if (err) {
