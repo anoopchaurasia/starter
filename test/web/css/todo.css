@@ -1,0 +1,83 @@
+#container{
+    -ms-flex-align: start;
+    -moz-box-align: start;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -moz-box-orient: horizontal;
+    -webkit-box-orient: horizontal;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin-bottom: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 10px;
+    position: absolute;
+    padding-top: 40px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.list {
+    float: left;
+    width: 200px;
+    border: 1px solid #ccc;
+    margin: 10px;
+    border-radius: 3px;
+    box-shadow: 4px 4px 5px #ccc;
+    background: #e3e3e3;
+    padding: 6px;
+    background: #e3e3e3;
+    border-radius: 3px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -moz-box-orient: vertical;
+    -webkit-box-orient: vertical;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -moz-box-flex: 0;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 260px;
+    -webkit-flex: 0 0 260px;
+    flex: 0 0 260px;
+    margin: 0 5px;
+    max-height: 100%;
+    padding: 4px 3px 3px;
+    position: relative;
+    -webkit-transform: translate3d(0,0,0);
+    width: 260px;
+}
+
+.list >div.head {
+    min-height: 20px;
+    padding: 3px 0 6px 6px
+}
+
+.card {
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    max-width: 300px;
+    min-height: 20px;
+    z-index: 0;
+    word-break: break-word;
+    padding: 6px 8px 4px;
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="/css/jquery-ui/jquery-ui.css" />
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap-override.css" />
+    <link type="text/css" rel="stylesheet" href="/css/todo.css" />
+    <script type="text/javascript" src="/js/src/lib/jquery.js"></script>
+	<script type="text/javascript" src="js/src/lib/jquery-ui.js" ></script>
+	<script type="text/javascript" src="/js/src/lib/angular.js"></script>
+    <script type="text/javascript" src="jsfm.js"></script>
+    <script type="text/javascript" src="/js/src/lib/bootstrap.js"></script>
+    <script>
+		fm.basedir = "/js/src/classes";
+		fm.Include("/js/src/App.js");
+	</script>
+    <style>
+        .ui-state-highlight { height: 1.5em; line-height: 1.2em; }
+    </style>
+</head>
+<body>
+    <div ng-controller="mainController">
+        <div
+            list-drag-drop
+            id="container">
+            <div
+                class="list"
+                ng-repeat="list in todo.board.listManager.items">
+                <div>
+                    <div class="head">
+                        <span> {{list.head_text }} </span>
+                    </div>
+                    <div
+                        card-drag-drop 
+                        class="body">
+                        <div
+                            class="card"
+                            inline-editor
+                            ng-model="card.text"
+                            ng-repeat="card in list.cardManager.items">
+                            {{card.text}}
+                        </div>
+                        <div ng-click="addCard(list.cardManager)">
+                        <a>add card</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="list add"
+                ng-click="showAddListForm()">
+                <a ng-hide="showAddListFormFlag">add list</a>
+                <form ng-show="showAddListFormFlag">
+                    <input
+                        type="text"
+                        placeholder="Add List..."
+                        ng-model="newAddListFormHeaderText">   
+                    <input 
+                        type="button"
+                        value="Save"
+                        ng-click="saveList(); $event.stopPropagation()">                     
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

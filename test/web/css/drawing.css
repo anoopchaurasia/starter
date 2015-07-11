@@ -1,0 +1,255 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align:middle;
+}
+textarea {
+    resize: none;`
+}
+.nowrap{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 78%;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.close.circle{
+    display: inline-block;
+    color: red;
+    padding: 1px 4px 3px;
+    border: 1px solid #751313;
+    border-radius: 50%;
+    line-height: 10px;
+}
+body{
+    background-color: #333;
+}
+
+.selected{
+    outline: 2px solid #cdcdcd;
+}
+
+#container{
+    position: absolute;
+    border: 1px dashed #999;
+    padding: 0 1px 1px 0;
+    background-color: #fff;
+    box-shadow: #020202 5px 5px 4px
+}
+
+#layerContainer{
+    width: 100%;
+    height: 100%;
+}
+
+.canvas-text{
+    position: fixed !important;
+    margin: 0;
+    border: 1px dashed;
+    cursor: all-scroll;
+    border-radius: 2px;
+}
+
+.canvas-text textarea{
+    background-color: transparent;
+    border: none;
+    margin: 0;
+    color: inherit;
+}
+
+.tool, .shape{
+    background: url(/img/all.png);
+    border:1px solid #444;
+    display: inline-block;
+    height:22px;
+    width: 22px;
+    margin-right: 5px;
+    margin-bottom: 5px; 
+}
+
+.object_selector{
+    background-position: 0 0;
+}
+
+.select_area{
+    background-position: -46px 3px;
+}
+
+.eraser{
+
+    background-position: -96px 3px;
+}
+
+.filler{
+    background-position: -146px 3px;
+}
+
+.color_picker{
+    background-position: -196px 3px;
+}
+
+.pencil{
+    background-position: -246px 3px;
+}
+
+.line{
+    background-position: -296px 3px;
+}
+
+.text_input{
+    background-position: -346px 3px;
+}
+
+.rect{
+    background-position: -396px 3px;
+}
+
+.circle{
+    background-position: -446px 3px;
+}
+
+.brush{
+    background-position: -496px 3px;
+}
+
+.increase{
+    background-position: 3px -45px;
+}
+
+.decrease{
+    background-position: -45px -45px;
+}
+
+.close{
+    background-position: -95px -45px;
+}
+
+.magic_wand{
+    background-position: -145px -45px;
+}
+
+.blur{
+    background-position: -195px -45px;
+}
+
+.sharpen{
+    background-position: -245px -45px;
+}
+
+.clone_object{
+    background-position: -295px -45px;
+}
+
+.rotate{
+    background: url(/img/shapes.png);
+    background-position: 62px -23px;
+}
+
+#header {
+    width: 65px;
+    left: 2px;
+    position: absolute;
+    top: 2px;
+    background: #666;
+    padding: 5px;
+    border-radius: 3px;
+}
+#header >div >div{
+    float: left;
+}
+#header >div >div:hover{
+    background-color: #f1f2f3;
+}
+
+#header >div {
+    border-right: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.canvas-text .draggable{
+    position: absolute;
+    display: inline-block;
+    padding: 2px;
+    border: 1px solid #333;
+    z-index: 999;
+    margin: -2px;
+}
+
+.canvas-text .top-left{
+    top:0;
+    left:0;
+}
+.canvas-text .top-middle{
+    top:0;
+    margin-left: 48%
+}
+.canvas-text .top-right{
+    top:0;
+    right: 0;
+
+}
+.canvas-text .right-middle{
+    top: 49%;
+    right:0;
+}
+.canvas-text .bottom-right{
+    right:0;
+    bottom: 0;
+}
+.canvas-text .bottom-middle{
+    left: 49%;
+    bottom: 0;
+}
+.canvas-text .bottom-left{
+    left:0;
+    top: 0;
+}
+.canvas-text .left-middle{
+    left:0;
+    top: 50%;
+}
+
+.left.header{
+    width: 150px;
+    position: absolute;
+    top: 2px;
+    background: #666;
+    right: 2px;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.selected{
+    background-color: #b3b3b3;
+}
+
+.add-image{
+    margin-left: -99999px;
+}
+
+#layerController{
+    margin-top: 10px;
+}
+
+body{
+    -webkit-user-select: none;
+}
+
+.input-micro{
+    width: 45px;
+}
+
+.layer{
+    cursor: pointer;
+    margin-top: 10px;
+}
