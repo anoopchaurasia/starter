@@ -25,7 +25,8 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 		});
 
 		expressApp.use("/jsfm", express.static(require("path").resolve(__dirname + '/' + 'node_modules/jsfm')));
-		expressApp.sources && expressApp.use(express.static(app.sources));
+		console.log(require("path").resolve(app.source));
+		app.source && expressApp.use(express.static(require("path").resolve(app.source)));
 		handle(app);
 	};
 
