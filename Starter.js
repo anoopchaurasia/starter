@@ -3,10 +3,6 @@ fm.Class("Starter");
 Starter = function(){this.setMe=function(_me){me=_me;};
 	'use strict';
 	var servletObj, expressApp, express;
-	function loadServlet( path, key ) {
-		fm.Include(path);
-		servletObj[key] = new (fm.stringToObject(path))();
-	}
 
 	this.init = function(){
 		express = require('express');
@@ -20,27 +16,30 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 	};
 
 	Static.createServer = function(app){
-		expressApp.listen(app.port, app.host, function(){
+		var host = app.host || 'localhost';
+		var port = app.port || 8080;
+		expressApp.listen(port, host, function(){
 			console.log("Server running at ", this._connectionKey);
 		});
 
 		expressApp.use("/jsfm", express.static(require("path").resolve(__dirname + '/' + 'node_modules/jsfm')));
-		console.log(require("path").resolve(app.source));
+		//console.log(require("path").resolve(app.source));
 		app.source && expressApp.use(express.static(require("path").resolve(app.source)));
 		handle(app);
 	};
 
 	function handle(app) {
-	 	var instance;
+	 	var instance, controller;
 		for(var k in app.controllers) {
-			fm.Include(app.controllers[k]["class"]);
-			instance  = new (fm.stringToObject(app.controllers[k]["class"]))();
-			applyMethods('get', me.preDefinedGetMethods, app.controllers[k].get||[], instance, k);
-			applyMethods('post', me.preDefinedPostMethods, app.controllers[k].post||[], instance, k);
-			applyMethods('patch', me.preDefinedPatchMethods, app.controllers[k].patch||[], instance, k);
-			applyMethods('delete', me.preDefinedDeleteMethods, app.controllers[k].delete||[], instance, k);
-			applyMethods('put', [], app.controllers[k].put||[], instance, k);
-			applyMethods('head', [], app.controllers[k].head||[], instance, k);
+			controllers = app.controllers[k];
+			fm.Include(controllers["class"]);
+			instance  = new (fm.stringToObject(controllers["class"]))();
+			applyMethods('get', me.preDefinedGetMethods, controllers.get||[], instance, k);
+			applyMethods('post', me.preDefinedPostMethods, controllers.post||[], instance, k);
+			applyMethods('patch', me.preDefinedPatchMethods, controllers.patch||[], instance, k);
+			applyMethods('delete', me.preDefinedDeleteMethods, controllers.delete||[], instance, k);
+			applyMethods('put', [], controllers.put||[], instance, k);
+			applyMethods('head', [], controllers.head||[], instance, k);
 		}
 	}
 
