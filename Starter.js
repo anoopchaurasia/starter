@@ -8,7 +8,7 @@ Starter = function(){this.setMe=function(_me){me=_me;};
 		express = require('express');
 		expressApp = express();
 		var bodyParser = require('body-parser')
-		expressApp.use( bodyParser.json() );
+		expressApp.use( bodyParser.json({limit: '50mb'}));
 		Static.Const.preDefinedGetMethods = ["new", 'index', 'show'];
 		Static.Const.preDefinedPostMethods = ["create"];
 		Static.Const.preDefinedPatchMethods = ['edit', 'update'];
