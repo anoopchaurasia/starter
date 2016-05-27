@@ -1,6 +1,6 @@
 fm.Package("");
 fm.Class("Starter");
-Starter = function(){this.setMe=function(_me){me=_me;};
+Starter = function(me){this.setMe=function(_me){me=_me;};
 	'use strict';
 	var servletObj, expressApp, express;
 
