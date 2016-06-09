@@ -42,7 +42,7 @@ Starter = function(me){this.setMe=function(_me){me=_me;};
 			applyMethods('head', [], controllers.head||[], instance, k);
 			if(controllers['static']) {
 				controllers['static'].forEach(function (path) {
-					expressApp.use("/"+path, express.static(path));
+					expressApp.use(path.url, express.static(path.dir));
 				});
 			}
 		}
