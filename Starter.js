@@ -40,6 +40,11 @@ Starter = function(me){this.setMe=function(_me){me=_me;};
 			applyMethods('delete', me.preDefinedDeleteMethods, controllers.delete||[], instance, k);
 			applyMethods('put', [], controllers.put||[], instance, k);
 			applyMethods('head', [], controllers.head||[], instance, k);
+			if(controllers['static']) {
+				controllers['static'].forEach(function (path) {
+					expressApp.use("/"+path, express.static(path));
+				});
+			}
 		}
 	}
 
