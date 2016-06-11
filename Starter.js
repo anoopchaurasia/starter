@@ -29,37 +29,39 @@ Starter = function(me){this.setMe=function(_me){me=_me;};
 	};
 
 	function handle(app) {
-	 	var instance, controller;
+	 	var instance, controllerconfig;
+	 	var rooturl = app.rooturl;
+	 	if(rooturl) {
+	 		fm.Include(rooturl["class"]);
+			instance  = new (fm.stringToObject(rooturl["class"]))();
+			expressApp['get']("/", instance[rooturl.method || "index"]);
+	 	}
 		for(var k in app.controllers) {
-			controllers = app.controllers[k];
-			fm.Include(controllers["class"]);
-			instance  = new (fm.stringToObject(controllers["class"]))();
-			applyMethods('get', me.preDefinedGetMethods, controllers.get||[], instance, k);
-			applyMethods('post', me.preDefinedPostMethods, controllers.post||[], instance, k);
-			applyMethods('patch', me.preDefinedPatchMethods, controllers.patch||[], instance, k);
-			applyMethods('delete', me.preDefinedDeleteMethods, controllers.delete||[], instance, k);
-			applyMethods('put', [], controllers.put||[], instance, k);
-			applyMethods('head', [], controllers.head||[], instance, k);
-			if(controllers['static']) {
-				controllers['static'].forEach(function (path) {
+			controllerconfig = app.controllers[k];
+			fm.Include(controllerconfig["class"]);
+			instance  = new (fm.stringToObject(controllerconfig["class"]))();
+			applyMethods('get', [me.preDefinedGetMethods, controllerconfig.get||[],  (instance.api && instance.api.get)|| []], instance, k);
+			applyMethods('post', [me.preDefinedPostMethods, controllerconfig.post||[],  (instance.api && instance.api.post)|| []], instance, k);
+			applyMethods('patch', [me.preDefinedPatchMethods, controllerconfig.patch||[],  (instance.api && instance.api.patch)|| []], instance, k);
+			applyMethods('delete', [me.preDefinedDeleteMethods, controllerconfig.delete||[],  (instance.api && instance.api.delete)|| []], instance, k);
+			applyMethods('put', [[], controllerconfig.put||[],  (instance.api && instance.api.put)|| []], instance, k);
+			applyMethods('head', [[], controllerconfig.head||[],  (instance.api && instance.api.head)|| []], instance, k);
+			if(controllerconfig['static']) {
+				controllerconfig['static'].forEach(function (path) {
 					expressApp.use(path.url, express.static(path.dir));
 				});
 			}
 		}
 	}
 
-	function applyMethods (httpmethod, m1, m2, instance, name){
-		var usedMethods = {};
-		m2.forEach(function(method){
-			if(typeof instance[method] === 'function' && !usedMethods[method]) {
-				usedMethods[method] = true;
-				expressApp[httpmethod]("/"+name + "/"+ method, instance[method]);
-			}
+	function applyMethods (httpmethod, methods, instance, name){
+		var temp = [];
+		methods = [].concat.apply([], methods).filter(function (a, i, arr) {
+			return arr.indexOf(a) == i;
 		});
-
-		m1.forEach(function(method){
-			if(typeof instance[method] === 'function' && !usedMethods[method]) {
-				usedMethods[method] = true;
+		var usedMethods = {};
+		methods.forEach(function(method){
+			if(typeof instance[method] === 'function') {
 				expressApp[httpmethod]("/"+name + "/"+ method, instance[method]);
 			}
 		});
