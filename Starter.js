@@ -6,7 +6,7 @@ Starter = function(me){this.setMe=function(_me){me=_me;};
 
 	this.init = function(){
 		Static.express = require('express');
-		Static.expressApp = express();
+		Static.expressApp = me.express();
 		var bodyParser = require('body-parser')
 		Static.expressApp.use( bodyParser.json({limit: '50mb'}));
 		Static.Const.preDefinedGetMethods = ["new", 'index', 'show'];
