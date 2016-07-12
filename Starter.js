@@ -21,8 +21,12 @@ Starter = function(me){this.setMe=function(_me){me=_me;};
 		expressApp.listen(port, host, function(){
 			console.log("Server running at ", this._connectionKey);
 		});
-
-		expressApp.use("/jsfm", express.static(require("path").resolve(__dirname + '/' + 'node_modules/jsfm')));
+		var fs = require("fs");
+		if (fs.existsSync("node_modules/jsfm")) {
+		    expressApp.use("/jsfm", express.static(require("path").resolve(__dirname + '/' + 'node_modules/jsfm')));
+		} else {
+			expressApp.use("/jsfm", express.static(require("path").resolve(__dirname + '/../jsfm')));
+		}
 		//console.log(require("path").resolve(app.source));
 		app.source && expressApp.use(express.static(require("path").resolve(app.source)));
 		handle(app);
