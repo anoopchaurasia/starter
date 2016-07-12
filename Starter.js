@@ -22,8 +22,9 @@ Starter = function(me){this.setMe=function(_me){me=_me;};
 			console.log("Server running at ", this._connectionKey);
 		});
 		var fs = require("fs");
-		if (fs.existsSync("node_modules/jsfm")) {
-		    expressApp.use("/jsfm", express.static(require("path").resolve(__dirname + '/' + 'node_modules/jsfm')));
+		var path = __dirname + '/' + 'node_modules/jsfm'
+		if (fs.existsSync(path)) {
+		    expressApp.use("/jsfm", express.static(require("path").resolve(path)));
 		} else {
 			expressApp.use("/jsfm", express.static(require("path").resolve(__dirname + '/../jsfm')));
 		}
