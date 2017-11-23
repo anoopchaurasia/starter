@@ -30,26 +30,35 @@ Starter = function(me){this.setMe=function(_me){me=_me;};
 		}
 		//console.log(require("path").resolve(app.source));
 		app.source && expressApp.use(express.static(require("path").resolve(app.source)));
+		addStaticFiles(app.static);
+		if(app.index) {
+			fm.Include(app.index["class"]);
+			app.index && expressApp.get("/", fm.stringToObject(app.index["class"]).new()[app.index.method||"index"]);
+		}
 		handle(app);
+		return expressApp;
 	};
+
+	function addStaticFiles(files) {
+		if(files) {
+			files.forEach(function (path) {
+				expressApp.use(path.url, express.static(path.dir));
+			});
+		}
+	}
 
 	function handle(app) {
 	 	var instance, controllerconfig;
 		for(var k in app.controllers) {
 			controllerconfig = app.controllers[k];
-			fm.Include(controllerconfig["class"]);
-			instance  = new (fm.stringToObject(controllerconfig["class"]))();
-			applyMethods('get', [me.preDefinedGetMethods, controllerconfig.get||[],  (instance.api && instance.api.get)|| []], instance, k);
-			applyMethods('post', [me.preDefinedPostMethods, controllerconfig.post||[],  (instance.api && instance.api.post)|| []], instance, k);
-			applyMethods('patch', [me.preDefinedPatchMethods, controllerconfig.patch||[],  (instance.api && instance.api.patch)|| []], instance, k);
-			applyMethods('delete', [me.preDefinedDeleteMethods, controllerconfig.delete||[],  (instance.api && instance.api.delete)|| []], instance, k);
-			applyMethods('put', [[], controllerconfig.put||[],  (instance.api && instance.api.put)|| []], instance, k);
-			applyMethods('head', [[], controllerconfig.head||[],  (instance.api && instance.api.head)|| []], instance, k);
-			if(controllerconfig['static']) {
-				controllerconfig['static'].forEach(function (path) {
-					expressApp.use(path.url, express.static(path.dir));
-				});
-			}
+			fm.Include(app.controllers[k]);
+			instance  = fm.stringToObject(app.controllers[k]).new();
+			applyMethods('get', [me.preDefinedGetMethods, (instance.api && instance.api.get)|| []], instance, k);
+			applyMethods('post', [me.preDefinedPostMethods, (instance.api && instance.api.post)|| []], instance, k);
+			applyMethods('patch', [me.preDefinedPatchMethods, (instance.api && instance.api.patch)|| []], instance, k);
+			applyMethods('delete', [me.preDefinedDeleteMethods, (instance.api && instance.api.delete)|| []], instance, k);
+			applyMethods('put', [[], (instance.api && instance.api.put)|| []], instance, k);
+			applyMethods('head', [[], (instance.api && instance.api.head)|| []], instance, k);
 			if(controllerconfig["methods"]) {
 				controllerconfig['methods'].forEach(function (path) {
 					expressApp[path.type||'get'](path.url, instance[path.method || "index"]);
@@ -59,15 +68,10 @@ Starter = function(me){this.setMe=function(_me){me=_me;};
 	}
 
 	function applyMethods (httpmethod, methods, instance, name){
-		var temp = [];
-		methods = [].concat.apply([], methods).filter(function (a, i, arr) {
-			return arr.indexOf(a) == i;
-		});
-		var usedMethods = {};
-		methods.forEach(function(method){
-			if(typeof instance[method] === 'function') {
-				expressApp[httpmethod]("/"+name + "/"+ method, instance[method]);
-			}
-		});
+		[].concat.apply([], methods).filter(function (a, i, arr) {
+			return arr.indexOf(a) == i && typeof instance[a] === 'function';
+		}).forEach(method=>{
+			expressApp[httpmethod]("/"+name + "/"+ method, instance[method]);
+		})
 	};
 };
