@@ -9,10 +9,21 @@ Starter = function(me){this.setMe=function(_me){me=_me;};
 		expressApp = express();
 		var bodyParser = require('body-parser')
 		expressApp.use( bodyParser.json({limit: '500mb'}));
-		Static.Const.preDefinedGetMethods = ["new", 'index', 'show'];
-		Static.Const.preDefinedPostMethods = ["create"];
-		Static.Const.preDefinedPatchMethods = ['edit', 'update'];
-		Static.Const.preDefinedDeleteMethods = ['delete'];
+		var fs = require("fs");
+		var path = __dirname + '/' + 'node_modules/jsfm'
+		if (fs.existsSync(path)) {
+		    expressApp.use("/jsfm", express.static(require("path").resolve(path)));
+		} else {
+			expressApp.use("/jsfm", express.static(require("path").resolve(__dirname + '/../jsfm')));
+		}
+	};
+
+	Static.getExpress = function () {
+		return expres;
+	};
+
+	Static.getExpressApp = function () {
+		return expressApp;
 	};
 
 	Static.createServer = function(app){
@@ -21,57 +32,17 @@ Starter = function(me){this.setMe=function(_me){me=_me;};
 		expressApp.listen(port, host, function(){
 			console.log("Server running at ", this._connectionKey);
 		});
-		var fs = require("fs");
-		var path = __dirname + '/' + 'node_modules/jsfm'
-		if (fs.existsSync(path)) {
-		    expressApp.use("/jsfm", express.static(require("path").resolve(path)));
-		} else {
-			expressApp.use("/jsfm", express.static(require("path").resolve(__dirname + '/../jsfm')));
-		}
-		//console.log(require("path").resolve(app.source));
-		app.source && expressApp.use(express.static(require("path").resolve(app.source)));
-		addStaticFiles(app.static);
-		if(app.index) {
-			fm.Include(app.index["class"]);
-			app.index && expressApp.get("/", fm.stringToObject(app.index["class"]).new()[app.index.method||"index"]);
-		}
-		handle(app);
-		return expressApp;
 	};
 
-	function addStaticFiles(files) {
-		if(files) {
-			files.forEach(function (path) {
-				expressApp.use(path.url, express.static(path.dir));
-			});
+	Static.addMethod = function(method, url, cb, middleware) {
+		if(typeof middleware == "function") {
+			expressApp[method||"get"](url, middleware, cb);
+		}else {
+			expressApp[method||"get"](url, cb);
 		}
-	}
+	};
 
-	function handle(app) {
-	 	var instance, controllerconfig;
-		for(var k in app.controllers) {
-			controllerconfig = app.controllers[k];
-			fm.Include(app.controllers[k]);
-			instance  = fm.stringToObject(app.controllers[k]).new();
-			applyMethods('get', [me.preDefinedGetMethods, (instance.api && instance.api.get)|| []], instance, k);
-			applyMethods('post', [me.preDefinedPostMethods, (instance.api && instance.api.post)|| []], instance, k);
-			applyMethods('patch', [me.preDefinedPatchMethods, (instance.api && instance.api.patch)|| []], instance, k);
-			applyMethods('delete', [me.preDefinedDeleteMethods, (instance.api && instance.api.delete)|| []], instance, k);
-			applyMethods('put', [[], (instance.api && instance.api.put)|| []], instance, k);
-			applyMethods('head', [[], (instance.api && instance.api.head)|| []], instance, k);
-			if(controllerconfig["methods"]) {
-				controllerconfig['methods'].forEach(function (path) {
-					expressApp[path.type||'get'](path.url, instance[path.method || "index"]);
-				});
-			}
-		}
-	}
-
-	function applyMethods (httpmethod, methods, instance, name){
-		[].concat.apply([], methods).filter(function (a, i, arr) {
-			return arr.indexOf(a) == i && typeof instance[a] === 'function';
-		}).forEach(method=>{
-			expressApp[httpmethod]("/"+name + "/"+ method, instance[method]);
-		})
+	Static.addStaticFile = function(url, file) {
+		expressApp.use(url, express.static(file));
 	};
 };
