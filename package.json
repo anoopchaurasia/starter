@@ -19,8 +19,8 @@
     "email": "anoop26667@gmail.com"
   },
   "dependencies": {
-    "body-parser": "^1.13.2",
-    "express": "^4.13.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
     "jsfm": "git://github.com/anoopchaurasia/jsfm.git"
   },
   "main": "index.js",
